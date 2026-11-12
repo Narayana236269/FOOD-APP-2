@@ -1,0 +1,1010 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Order Food | Foodie Restaurant</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --green: #073b2c;
+        --dark-green: #05281f;
+        --gold: #ffbd45;
+        --cream: #f8f5ed;
+        --muted: #687169;
+      }
+
+      body {
+        margin: 0;
+        background: var(--cream);
+        color: #202923;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      .navbar {
+        background: var(--dark-green);
+        padding: 15px 0;
+      }
+
+      .brand {
+        font-size: 26px;
+        font-weight: bold;
+        color: white;
+        text-decoration: none;
+      }
+
+      .brand i {
+        color: var(--gold);
+      }
+
+      .nav-link {
+        color: white;
+      }
+
+      .nav-link:hover {
+        color: var(--gold);
+      }
+
+      .page-banner {
+        background:
+          linear-gradient(90deg, rgba(5, 40, 31, 0.97), rgba(5, 40, 31, 0.65)),
+          url("https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=1600&q=80");
+
+        background-size: cover;
+        background-position: center;
+        padding: 65px 0;
+        color: white;
+      }
+
+      .page-banner h1 {
+        font-size: clamp(35px, 5vw, 52px);
+        font-weight: 800;
+      }
+
+      .page-banner span {
+        color: var(--gold);
+      }
+
+      .main-section {
+        padding: 55px 0;
+      }
+
+      .section-heading {
+        font-weight: 800;
+        margin-bottom: 8px;
+      }
+
+      .muted {
+        color: var(--muted);
+      }
+
+      .food-card {
+        height: 100%;
+        border: 1px solid #ebe7dc;
+        border-radius: 16px;
+        overflow: hidden;
+        background: white;
+        transition: 0.25s;
+      }
+
+      .food-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.08);
+      }
+
+      .food-card img {
+        width: 100%;
+        height: 165px;
+        object-fit: cover;
+      }
+
+      .food-body {
+        padding: 18px;
+      }
+
+      .food-body h5 {
+        font-weight: bold;
+        font-size: 18px;
+      }
+
+      .food-description {
+        color: var(--muted);
+        font-size: 13px;
+        min-height: 40px;
+      }
+
+      .price {
+        color: var(--green);
+        font-weight: 800;
+        font-size: 19px;
+      }
+
+      .quantity-input {
+        width: 75px;
+        border: 1px solid #d8ded7;
+        border-radius: 8px;
+        padding: 7px;
+      }
+
+      .order-panel {
+        background: white;
+        border: 1px solid #e8e5db;
+        border-radius: 18px;
+        padding: 25px;
+        position: sticky;
+        top: 95px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.04);
+      }
+
+      .form-label {
+        font-weight: 600;
+        font-size: 14px;
+      }
+
+      .form-control,
+      .form-select {
+        padding: 12px;
+        border-radius: 9px;
+        border-color: #deded5;
+      }
+
+      .form-control:focus,
+      .form-select:focus {
+        border-color: var(--green);
+        box-shadow: 0 0 0 0.2rem rgba(7, 59, 44, 0.1);
+      }
+
+      .total-box {
+        background: #edf3e9;
+        border-radius: 12px;
+        padding: 17px;
+        margin-top: 20px;
+      }
+
+      .total-price {
+        color: var(--green);
+        font-size: 27px;
+        font-weight: 800;
+      }
+
+      .place-order-btn {
+        width: 100%;
+        background: var(--gold);
+        border: none;
+        border-radius: 10px;
+        padding: 14px;
+        font-weight: 800;
+        color: var(--dark-green);
+        transition: 0.2s;
+      }
+
+      .place-order-btn:hover {
+        background: var(--green);
+        color: white;
+      }
+
+      .empty-cart {
+        color: var(--muted);
+        font-size: 14px;
+        padding: 10px 0;
+      }
+
+      .alert-message {
+        display: none;
+      }
+
+      footer {
+        background: var(--dark-green);
+        color: white;
+        padding: 25px 0;
+        text-align: center;
+      }
+
+      footer p {
+        margin: 0;
+        color: #d4ded7;
+      }
+
+
+      /* LOGIN / REGISTER */
+      .auth-btn {
+        border: 1px solid var(--gold);
+        color: var(--gold);
+        border-radius: 8px;
+        padding: 7px 15px;
+        font-weight: 700;
+      }
+      .auth-btn:hover {
+        background: var(--gold);
+        color: var(--dark-green);
+      }
+      .user-name { color: var(--gold); font-weight: 700; }
+      .auth-modal .modal-content {
+        border: 0;
+        border-radius: 18px;
+        overflow: hidden;
+      }
+      .auth-modal .modal-header {
+        background: var(--dark-green);
+        color: white;
+        border: 0;
+      }
+      .auth-modal .btn-close { filter: invert(1); }
+      .auth-submit {
+        background: var(--gold);
+        color: var(--dark-green);
+        border: 0;
+        font-weight: 800;
+        padding: 12px;
+      }
+      .auth-submit:hover { background: var(--green); color: white; }
+      .auth-switch { color: var(--green); font-weight: 700; cursor: pointer; }
+
+      @media (max-width: 991px) {
+        .order-panel {
+          position: static;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- NAVBAR -->
+
+    <nav class="navbar navbar-expand-lg">
+      <div class="container">
+        <a href="/" class="brand"> <i class="bi bi-egg-fried"></i> Foodie </a>
+
+        <button
+          class="navbar-toggler bg-warning"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarContent"
+          aria-controls="navbarContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarContent">
+          <ul class="navbar-nav ms-auto align-items-lg-center">
+            <li class="nav-item">
+              <a class="nav-link px-3" href="/">Home</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link px-3" href="/#menu">Menu</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link px-3" href="/#about">About</a>
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link px-3 active" href="/orders/">Order Food</a>
+            </li>
+
+            <li class="nav-item ms-lg-3 my-2 my-lg-0" id="authNav">
+              <button class="btn auth-btn" type="button" data-bs-toggle="modal" data-bs-target="#authModal">
+                <i class="bi bi-person-circle me-1"></i> Login / Register
+              </button>
+            </li>
+            <li class="nav-item ms-lg-3 my-2 my-lg-0 d-none" id="userNav">
+              <span class="user-name me-3" id="navUserName"></span>
+              <button class="btn auth-btn" type="button" id="logoutBtn">
+                <i class="bi bi-box-arrow-right me-1"></i> Logout
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- BANNER -->
+
+    <section class="page-banner">
+      <div class="container">
+        <p class="text-warning fw-bold text-uppercase">
+          Freshly prepared, just for you
+        </p>
+
+        <h1>
+          Your Food,<br />
+          <span>Your Choice.</span>
+        </h1>
+
+        <p class="mb-0">Choose your favourite dishes and place your order.</p>
+      </div>
+    </section>
+
+
+    <!-- LOGIN / REGISTER MODAL -->
+    <div class="modal fade auth-modal" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title fw-bold" id="authModalLabel">
+              <i class="bi bi-person-circle me-2"></i>Welcome to Foodie
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body p-4">
+            <div id="authMessage" class="alert d-none" role="alert"></div>
+
+            <form id="loginForm">
+              <h4 class="fw-bold mb-1">Login</h4>
+              <p class="muted mb-4">Sign in to continue ordering your favourite food.</p>
+              <div class="mb-3">
+                <label for="loginEmail" class="form-label">Email Address</label>
+                <input type="email" id="loginEmail" class="form-control" placeholder="Enter your email" required>
+              </div>
+              <div class="mb-3">
+                <label for="loginPassword" class="form-label">Password</label>
+                <input type="password" id="loginPassword" class="form-control" placeholder="Enter your password" minlength="6" required>
+              </div>
+              <button type="submit" class="btn auth-submit w-100">Login</button>
+              <p class="text-center mt-3 mb-0">New to Foodie?
+                <span class="auth-switch" id="showRegister">Create an account</span>
+              </p>
+            </form>
+
+            <form id="registerForm" class="d-none">
+              <h4 class="fw-bold mb-1">Create Account</h4>
+              <p class="muted mb-4">Register to enjoy ordering with Foodie.</p>
+              <div class="mb-3">
+                <label for="registerName" class="form-label">Full Name</label>
+                <input type="text" id="registerName" class="form-control" placeholder="Enter your name" maxlength="100" required>
+              </div>
+              <div class="mb-3">
+                <label for="registerEmail" class="form-label">Email Address</label>
+                <input type="email" id="registerEmail" class="form-control" placeholder="Enter your email" required>
+              </div>
+              <div class="mb-3">
+                <label for="registerPassword" class="form-label">Password</label>
+                <input type="password" id="registerPassword" class="form-control" placeholder="Create a password (minimum 6 characters)" minlength="6" required>
+              </div>
+              <div class="mb-3">
+                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                <input type="password" id="confirmPassword" class="form-control" placeholder="Re-enter your password" minlength="6" required>
+              </div>
+              <button type="submit" class="btn auth-submit w-100">Create Account</button>
+              <p class="text-center mt-3 mb-0">Already registered?
+                <span class="auth-switch" id="showLogin">Login</span>
+              </p>
+            </form>
+            <p class="small muted mt-3 mb-0">
+              Demo only: account details are stored in this browser. Do not use a real password.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ORDER SECTION -->
+
+    <section class="main-section">
+      <div class="container">
+        <div class="row g-4">
+          <!-- FOOD MENU -->
+
+          <div class="col-lg-8">
+            <div class="mb-4">
+              <h2 class="section-heading">Explore Our Menu</h2>
+              <p class="muted">Select your dishes and choose the quantity.</p>
+            </div>
+
+            <div class="row g-4">
+              <!-- PIZZA -->
+
+              <div class="col-md-6 col-xl-4">
+                <div class="food-card">
+                  <img
+                    src="https://images.unsplash.com/photo-1579751626657-72bc17010498?auto=format&fit=crop&w=600&q=80"
+                    alt="Margherita Pizza"
+                    loading="lazy"
+                  />
+
+                  <div class="food-body">
+                    <h5>Margherita Pizza</h5>
+
+                    <p class="food-description">
+                      Cheese, tomatoes and aromatic herbs.
+                    </p>
+
+                    <div
+                      class="d-flex justify-content-between align-items-center"
+                    >
+                      <span class="price">₹249</span>
+
+                      <input
+                        type="number"
+                        class="quantity-input quantity"
+                        min="0"
+                        max="20"
+                        value="0"
+                        data-name="Margherita Pizza"
+                        data-price="249"
+                        aria-label="Margherita Pizza quantity"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- BIRYANI -->
+
+              <div class="col-md-6 col-xl-4">
+                <div class="food-card">
+                  <img
+                    src="https://images.unsplash.com/photo-1563379091339-03246963d96c?auto=format&fit=crop&w=600&q=80"
+                    alt="Chicken Biryani"
+                    loading="lazy"
+                  />
+
+                  <div class="food-body">
+                    <h5>Chicken Biryani</h5>
+
+                    <p class="food-description">
+                      Aromatic rice with rich Indian spices.
+                    </p>
+
+                    <div
+                      class="d-flex justify-content-between align-items-center"
+                    >
+                      <span class="price">₹299</span>
+
+                      <input
+                        type="number"
+                        class="quantity-input quantity"
+                        min="0"
+                        max="20"
+                        value="0"
+                        data-name="Chicken Biryani"
+                        data-price="299"
+                        aria-label="Chicken Biryani quantity"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- BURGER -->
+
+              <div class="col-md-6 col-xl-4">
+                <div class="food-card">
+                  <img
+                    src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=600&q=80"
+                    alt="Veg Burger"
+                    loading="lazy"
+                  />
+
+                  <div class="food-body">
+                    <h5>Veg Burger</h5>
+
+                    <p class="food-description">
+                      Crispy patty, fresh lettuce and sauce.
+                    </p>
+
+                    <div
+                      class="d-flex justify-content-between align-items-center"
+                    >
+                      <span class="price">₹149</span>
+
+                      <input
+                        type="number"
+                        class="quantity-input quantity"
+                        min="0"
+                        max="20"
+                        value="0"
+                        data-name="Veg Burger"
+                        data-price="149"
+                        aria-label="Veg Burger quantity"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- SALAD -->
+
+              <div class="col-md-6 col-xl-4">
+                <div class="food-card">
+                  <img
+                    src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=600&q=80"
+                    alt="Garden Salad"
+                    loading="lazy"
+                  />
+
+                  <div class="food-body">
+                    <h5>Garden Salad</h5>
+
+                    <p class="food-description">
+                      Fresh vegetables and delicious dressing.
+                    </p>
+
+                    <div
+                      class="d-flex justify-content-between align-items-center"
+                    >
+                      <span class="price">₹179</span>
+
+                      <input
+                        type="number"
+                        class="quantity-input quantity"
+                        min="0"
+                        max="20"
+                        value="0"
+                        data-name="Garden Salad"
+                        data-price="179"
+                        aria-label="Garden Salad quantity"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- PASTA -->
+
+              <div class="col-md-6 col-xl-4">
+                <div class="food-card">
+                  <img
+                    src="https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&w=600&q=80"
+                    alt="Creamy Pasta"
+                    loading="lazy"
+                  />
+
+                  <div class="food-body">
+                    <h5>Creamy Pasta</h5>
+
+                    <p class="food-description">
+                      Creamy sauce with herbs and cheese.
+                    </p>
+
+                    <div
+                      class="d-flex justify-content-between align-items-center"
+                    >
+                      <span class="price">₹229</span>
+
+                      <input
+                        type="number"
+                        class="quantity-input quantity"
+                        min="0"
+                        max="20"
+                        value="0"
+                        data-name="Creamy Pasta"
+                        data-price="229"
+                        aria-label="Creamy Pasta quantity"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- DESSERT -->
+
+              <div class="col-md-6 col-xl-4">
+                <div class="food-card">
+                  <img
+                    src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&w=600&q=80"
+                    alt="Chocolate Dessert"
+                    loading="lazy"
+                  />
+
+                  <div class="food-body">
+                    <h5>Chocolate Dessert</h5>
+
+                    <p class="food-description">
+                      A rich and delicious chocolate treat.
+                    </p>
+
+                    <div
+                      class="d-flex justify-content-between align-items-center"
+                    >
+                      <span class="price">₹149</span>
+
+                      <input
+                        type="number"
+                        class="quantity-input quantity"
+                        min="0"
+                        max="20"
+                        value="0"
+                        data-name="Chocolate Dessert"
+                        data-price="149"
+                        aria-label="Chocolate Dessert quantity"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ORDER FORM -->
+
+          <div class="col-lg-4">
+            <div class="order-panel">
+              <h3 class="section-heading">
+                <i class="bi bi-bag-check"></i>
+                Your Order
+              </h3>
+
+              <p class="muted">Review your selection and delivery details.</p>
+
+              <div id="emptyCart" class="empty-cart">
+                Your cart is empty. Select a food item to begin.
+              </div>
+
+              <ul id="cartItems" class="list-group list-group-flush mb-3"></ul>
+
+              <div
+                id="orderAlert"
+                class="alert alert-warning alert-message"
+                role="alert"
+              ></div>
+
+              <form id="orderForm">
+                <h5 class="fw-bold mt-4 mb-3">Delivery Details</h5>
+
+                <div class="mb-3">
+                  <label for="customerName" class="form-label">
+                    Full Name
+                  </label>
+
+                  <input
+                    type="text"
+                    id="customerName"
+                    class="form-control"
+                    placeholder="Enter your name"
+                    maxlength="100"
+                    required
+                  />
+                </div>
+
+                <div class="mb-3">
+                  <label for="phone" class="form-label"> Phone Number </label>
+
+                  <input
+                    type="tel"
+                    id="phone"
+                    class="form-control"
+                    placeholder="Enter phone number"
+                    pattern="[0-9+\-\s()]{7,20}"
+                    required
+                  />
+                </div>
+
+                <div class="mb-3">
+                  <label for="address" class="form-label">
+                    Delivery Address
+                  </label>
+
+                  <textarea
+                    id="address"
+                    class="form-control"
+                    rows="3"
+                    placeholder="House number, street, city"
+                    maxlength="500"
+                    required
+                  ></textarea>
+                </div>
+
+                <div class="mb-3">
+                  <label for="payment" class="form-label">
+                    Payment Method
+                  </label>
+
+                  <select id="payment" class="form-select" required>
+                    <option value="">Select payment method</option>
+                    <option value="COD">Cash on Delivery</option>
+                    <option value="UPI">UPI (demo only)</option>
+                    <option value="Card">Card (demo only)</option>
+                  </select>
+                </div>
+
+                <div class="total-box">
+                  <div class="d-flex justify-content-between mb-2">
+                    <span>Subtotal</span>
+                    <span id="subtotal">₹0</span>
+                  </div>
+
+                  <div class="d-flex justify-content-between mb-2">
+                    <span>Delivery</span>
+                    <span id="delivery">₹0</span>
+                  </div>
+
+                  <hr />
+
+                  <div
+                    class="d-flex justify-content-between align-items-center"
+                  >
+                    <span class="fw-bold">Total</span>
+                    <span class="total-price" id="total">₹0</span>
+                  </div>
+                </div>
+
+                <button type="submit" class="place-order-btn mt-4">
+                  <i class="bi bi-check-circle me-2"></i>
+                  Place Order
+                </button>
+
+                <p class="text-center muted small mt-3 mb-0">
+                  <i class="bi bi-shield-check"></i>
+                  Demo order page — no payment is processed.
+                </p>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+
+    <footer>
+      <div class="container">
+        <p>
+          <i class="bi bi-egg-fried text-warning"></i>
+          <strong>Foodie Restaurant</strong>
+          — Good Food, Good Mood.
+        </p>
+        <p class="small mt-2">&copy; 2026 Foodie. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      const quantityInputs = document.querySelectorAll(".quantity");
+      const cartItems = document.getElementById("cartItems");
+      const emptyCart = document.getElementById("emptyCart");
+      const subtotalElement = document.getElementById("subtotal");
+      const deliveryElement = document.getElementById("delivery");
+      const totalElement = document.getElementById("total");
+      const orderForm = document.getElementById("orderForm");
+      const orderAlert = document.getElementById("orderAlert");
+
+      let currentSubtotal = 0;
+      let selectedItems = [];
+
+      function formatRupees(amount) {
+        return "₹" + amount.toLocaleString("en-IN");
+      }
+
+      function updateCart() {
+        selectedItems = [];
+        currentSubtotal = 0;
+        cartItems.replaceChildren();
+
+        quantityInputs.forEach(function (input) {
+          const quantity = Number(input.value);
+          const price = Number(input.dataset.price);
+
+          if (quantity > 0) {
+            const item = {
+              name: input.dataset.name,
+              quantity: quantity,
+              price: price,
+              amount: quantity * price,
+            };
+
+            selectedItems.push(item);
+            currentSubtotal += item.amount;
+
+            const li = document.createElement("li");
+            li.className = "list-group-item px-0";
+
+            const row = document.createElement("div");
+            row.className = "d-flex justify-content-between gap-2";
+
+            const description = document.createElement("span");
+            description.textContent = item.name + " × " + item.quantity;
+
+            const amount = document.createElement("strong");
+            amount.textContent = formatRupees(item.amount);
+
+            row.append(description, amount);
+            li.appendChild(row);
+            cartItems.appendChild(li);
+          }
+        });
+
+        emptyCart.style.display = selectedItems.length ? "none" : "block";
+
+        const delivery = currentSubtotal > 0 ? 40 : 0;
+        const total = currentSubtotal + delivery;
+
+        subtotalElement.textContent = formatRupees(currentSubtotal);
+        deliveryElement.textContent = formatRupees(delivery);
+        totalElement.textContent = formatRupees(total);
+      }
+
+      quantityInputs.forEach(function (input) {
+        input.addEventListener("input", function () {
+          const quantity = Number(input.value);
+
+          if (!Number.isInteger(quantity) || quantity < 0) {
+            input.value = 0;
+          } else if (quantity > 20) {
+            input.value = 20;
+          }
+
+          orderAlert.style.display = "none";
+          updateCart();
+        });
+      });
+
+      // DEMO AUTHENTICATION: localStorage is for learning only.
+      // Never store real passwords this way in a production application.
+      const authNav = document.getElementById("authNav");
+      const userNav = document.getElementById("userNav");
+      const navUserName = document.getElementById("navUserName");
+      const authModalElement = document.getElementById("authModal");
+      const authModal = new bootstrap.Modal(authModalElement);
+      const authMessage = document.getElementById("authMessage");
+      const loginForm = document.getElementById("loginForm");
+      const registerForm = document.getElementById("registerForm");
+
+      function getUsers() {
+        try {
+          return JSON.parse(localStorage.getItem("foodieUsers")) || [];
+        } catch (error) {
+          return [];
+        }
+      }
+
+      function getCurrentUser() {
+        try {
+          return JSON.parse(sessionStorage.getItem("foodieCurrentUser"));
+        } catch (error) {
+          return null;
+        }
+      }
+
+      function updateAuthNavigation() {
+        const user = getCurrentUser();
+        authNav.classList.toggle("d-none", Boolean(user));
+        userNav.classList.toggle("d-none", !user);
+        navUserName.textContent = user ? "Hi, " + user.name : "";
+      }
+
+      function showAuthMessage(message, type) {
+        authMessage.textContent = message;
+        authMessage.className = "alert alert-" + type;
+      }
+
+      function switchAuthForm(showRegister) {
+        loginForm.classList.toggle("d-none", showRegister);
+        registerForm.classList.toggle("d-none", !showRegister);
+        authMessage.className = "alert d-none";
+      }
+
+      document.getElementById("showRegister").addEventListener("click", function () {
+        switchAuthForm(true);
+      });
+
+      document.getElementById("showLogin").addEventListener("click", function () {
+        switchAuthForm(false);
+      });
+
+      registerForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+        if (!registerForm.reportValidity()) return;
+
+        const name = document.getElementById("registerName").value.trim();
+        const email = document.getElementById("registerEmail").value.trim().toLowerCase();
+        const password = document.getElementById("registerPassword").value;
+        const confirmPassword = document.getElementById("confirmPassword").value;
+
+        if (password !== confirmPassword) {
+          showAuthMessage("Passwords do not match. Please try again.", "danger");
+          return;
+        }
+
+        const users = getUsers();
+        if (users.some(function (user) { return user.email === email; })) {
+          showAuthMessage("An account with this email already exists. Please login.", "warning");
+          return;
+        }
+
+        // Demo-only storage. Production apps must hash passwords on the server.
+        users.push({ name: name, email: email, password: password });
+        localStorage.setItem("foodieUsers", JSON.stringify(users));
+        sessionStorage.setItem("foodieCurrentUser", JSON.stringify({ name: name, email: email }));
+
+        updateAuthNavigation();
+        showAuthMessage("Registration successful! You are now logged in.", "success");
+        registerForm.reset();
+        setTimeout(function () { authModal.hide(); }, 900);
+      });
+
+      loginForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+        if (!loginForm.reportValidity()) return;
+
+        const email = document.getElementById("loginEmail").value.trim().toLowerCase();
+        const password = document.getElementById("loginPassword").value;
+        const user = getUsers().find(function (item) {
+          return item.email === email && item.password === password;
+        });
+
+        if (!user) {
+          showAuthMessage("Invalid email or password. Please try again or register.", "danger");
+          return;
+        }
+
+        sessionStorage.setItem("foodieCurrentUser", JSON.stringify({ name: user.name, email: user.email }));
+        updateAuthNavigation();
+        showAuthMessage("Login successful. Welcome back, " + user.name + "!", "success");
+        loginForm.reset();
+        setTimeout(function () { authModal.hide(); }, 900);
+      });
+
+      document.getElementById("logoutBtn").addEventListener("click", function () {
+        sessionStorage.removeItem("foodieCurrentUser");
+        updateAuthNavigation();
+        orderAlert.style.display = "block";
+        orderAlert.className = "alert alert-info";
+        orderAlert.textContent = "You have been logged out.";
+      });
+
+      authModalElement.addEventListener("hidden.bs.modal", function () {
+        authMessage.className = "alert d-none";
+        loginForm.reset();
+        registerForm.reset();
+        switchAuthForm(false);
+      });
+
+      orderForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        orderAlert.style.display = "block";
+        orderAlert.className = "alert alert-warning";
+
+        if (selectedItems.length === 0) {
+          orderAlert.textContent =
+            "Please select at least one food item before placing your order.";
+          return;
+        }
+
+        if (!getCurrentUser()) {
+          orderAlert.textContent = "Please login or create an account before placing your order.";
+          authModal.show();
+          switchAuthForm(false);
+          return;
+        }
+
+        if (!orderForm.reportValidity()) {
+          return;
+        }
+
+        const customerName = document.getElementById("customerName").value.trim();
+        const payment = document.getElementById("payment").value;
+
+        orderAlert.className = "alert alert-success";
+        orderAlert.textContent =
+          "Demo order prepared for " +
+          customerName +
+          ". Total: " +
+          totalElement.textContent +
+          ". Payment method: " +
+          payment +
+          ". No order was saved and no payment was taken. Connect Django backend to submit a real order.";
+      });
+
+      updateAuthNavigation();
+      updateCart();
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
+
